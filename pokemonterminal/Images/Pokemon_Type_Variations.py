@@ -79,7 +79,6 @@
 0706_Goodra-Hisui.png [Steel, Dragon]
 0713_Avalugg-Hisui.png [Ice, Rock]
 0724_Decidueye-Hisui.png [Grass, Fighting]
-0741_Oricorio-Baile.png [Fire, Flying]
 0741_Oricorio-Pa'u.png [Psychic, Flying]
 0741_Oricorio-Pom-Pom.png [Electric, Flying]
 0741_Oricorio-Sensu.png [Ghost, Flying]
