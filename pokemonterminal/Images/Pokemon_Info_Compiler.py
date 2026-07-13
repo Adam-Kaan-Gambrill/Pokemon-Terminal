@@ -1,6 +1,6 @@
 import os
 import Pokemon_Image_Brightness_Finder as imageBrightness
-import pypokedex
+import requests
 
 folderPath = '/home/mark/Adams_Dev_Test/Pokemon-Terminal/pokemonterminal/Images/HQ_Images/'
 # folderPath = '/home/adam/Pokemon_Images/Pokemon/assets/HQ_Images/'
@@ -29,22 +29,36 @@ for fileName in list:
         print(fileName)
         with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info_Temp.txt', 'a') as amendCompiledCsv:
         # with open('/home/adam/Pokemon_Images/Pokemon_Compiled_Info_Temp.txt', 'a') as compiledCsv:
-        amendCompiledCsv.write(str(pokemonDexNoFixed) + '\t' + pokemonName.title() + '\t' + str(imageBrightness.pokemonImageBrightnessFinder(folderPath, fileName)) + multipleTypes.title() + '\n')
+            amendCompiledCsv.write(str(pokemonDexNoFixed) + '\t' + pokemonName.title() + '\t' + str(imageBrightness.pokemonImageBrightnessFinder(folderPath, fileName)) + multipleTypes.title() + '\n')
         continue
+
+
     else:
         pokemonDexNo = fileName[:4]
         pokemonDexNo = int(pokemonDexNo)
         pokemonDexNoFixed = ("{:04d}".format(pokemonDexNo))
         pokemonName = fileName[5:-4]
-        pokemonVariable = pypokedex.get(dex=pokemonDexNo)
+        fixedPokemonName = pokemonName.replace('_', '-')
+        pkmnSearchVariable = requests.get("https://pokeapi.co/api/v2/pokemon/" + fixedPokemonName)
+        pkmnTypesVariable = pkmnSearchVariable.json()['types']
+        pkmnAbilitiesVariable = pkmnSearchVariable.json()['abilities']
+        pkmnTypesVariable = 
+        pkmnAbilitiesVariable = pkmnAbilitiesVariable
+        print(pkmnTypesVariable)
+        print(pkmnAbilitiesVariable)
         # pokemonTypes = ['Fire', 'Psychic']
         multipleTypes = ''
 
-    for pokeType in pokemonVariable.types:
-        multipleTypes = multipleTypes + '\t' + pokeType
-    with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info_Temp.txt', 'a') as compiledCsv:
-    # with open('/home/adam/Pokemon_Images/Pokemon_Compiled_Info_Temp.txt', 'a') as compiledCsv:
-        compiledCsv.write(str(pokemonDexNoFixed) + '\t' + pokemonName.title() + '\t' + str(imageBrightness.pokemonImageBrightnessFinder(folderPath, fileName)) + multipleTypes.title() + '\n')
-    with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info_Log_Temp.txt', 'a') as infoLog:
-    # with open('/home/adam/Pokemon_Images/Pokemon_Compiled_Info_Log_Temp.txt', 'a') as infoLog:
-        infoLog.write(fileName + '\n')
+
+# print(pkmnTypesVariable)
+# print(pkmnAbilitiesVariable)
+
+
+    # for pokeType in pkmnTypesVariable:
+    #     multipleTypes = multipleTypes + '\t' + pokeType
+    # with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info_Temp.txt', 'a') as compiledCsv:
+    # # with open('/home/adam/Pokemon_Images/Pokemon_Compiled_Info_Temp.txt', 'a') as compiledCsv:
+    #     compiledCsv.write(str(pokemonDexNoFixed) + '\t' + pokemonName.title() + '\t' + str(imageBrightness.pokemonImageBrightnessFinder(folderPath, fileName)) + multipleTypes.title() + '\n')
+    # with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info_Log_Temp.txt', 'a') as infoLog:
+    # # with open('/home/adam/Pokemon_Images/Pokemon_Compiled_Info_Log_Temp.txt', 'a') as infoLog:
+    #     infoLog.write(fileName + '\n')
