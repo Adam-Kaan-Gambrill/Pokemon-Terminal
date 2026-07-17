@@ -24,34 +24,77 @@ for fileName in list:
     pokemonDexNo = fileName[:4]
     pokemonDexNo = int(pokemonDexNo)
     pokemonDexNoFixed = ("{:04d}".format(pokemonDexNo))
-    pokemonName = fileName[5:-4]
+    pokemonName = "Burmy-Plant"
+    # pokemonName = fileName[5:-4]
     pokemonNameFixed = pokemonName.replace('_', '-').replace("'", "").replace('.', '-')
-    pkmnSearchVariable = requests.get("https://pokeapi.co/api/v2/pokemon/" + pokemonNameFixed)
-
-    print(pokemonNameFixed)
-
-    pkmnNameVariable = pkmnSearchVariable.json()['name'].title()
-    pkmnTypesVariable = pkmnSearchVariable.json()['types']
-    pkmnAbilitiesVariable = pkmnSearchVariable.json()['abilities']
 
     pkmnTypeList = ''
     pkmnAbilityList = ''
     pkmnHiddenAbilityList = ''
 
-    for item in pkmnTypesVariable:
-        pkmnTypeList = pkmnTypeList + '\t' + (item['type']['name']).title()
-        print(pkmnTypeList)
+    try:
+        pkmnSearchVariable = requests.get("https://pokeapi.co/api/v2/pokemon/" + pokemonNameFixed)
 
-    for item in pkmnAbilitiesVariable:
-        if not item['is_hidden']:
-            pkmnAbilityList = pkmnAbilityList + '\t' + (item['ability']['name']).title()
-            print(pkmnAbilityList)
+        pkmnNameVariable = pkmnSearchVariable.json()['name'].title()
+        pkmnTypesVariable = pkmnSearchVariable.json()['types']
+        pkmnAbilitiesVariable = pkmnSearchVariable.json()['abilities']
 
-    for item in pkmnAbilitiesVariable:
-        if item['is_hidden']:
-            pkmnHiddenAbilityList = (item['ability']['name']).title()
-            print(pkmnHiddenAbilityList)
 
+        for item in pkmnTypesVariable:
+            pkmnTypeList = pkmnTypeList + '\t' + (item['type']['name']).title()
+            print(pkmnTypeList)
+
+        
+        for item in pkmnAbilitiesVariable:
+            if not item['is_hidden']:
+                pkmnAbilityList = pkmnAbilityList + '\t' + (item['ability']['name']).title()
+                print(pkmnAbilityList)
+
+        for item in pkmnAbilitiesVariable:
+            if item['is_hidden']:
+                pkmnHiddenAbilityList = (item['ability']['name']).title()
+                print(pkmnHiddenAbilityList)
+
+        
+
+    except:
+        pkmnSearchVariableBackup = requests.get("https://pokeapi.co/api/v2/pokemon-form/" + pokemonNameFixed)
+        pkmnURLVariable = pkmnSearchVariableBackup.json()['pokemon']
+        pkmnURL = (pkmnAbilitiesVariable['url'])
+
+        print(pkmnURL)
+
+        pkmnNameVariable = pkmnSearchVariable.json()['name'].title()
+
+        pkmnAbilitiesVariable = pkmnURL(item['abilities'])
+
+        print(pkmnAbilitiesVariable)
+
+
+        for item in pkmnTypesVariable:
+            pkmnTypeList = pkmnTypeList + '\t' + (item['type']['name']).title()
+            print(pkmnTypeList)
+
+
+        pkmnAbilitiesVariable = pkmnSearchVariable.json()['pokemon']
+
+        pkmnAbilityList = (pkmnAbilitiesVariable['url']).title()
+
+        print(pkmnAbilityList)
+
+        for item in pkmnTypesVariableBackup:
+            pkmnTypeList = pkmnTypeList + '\t' + (item['type']['name']).title()
+            print(pkmnTypeList)
+
+        for item in pkmnAbilitiesVariable:
+            if not item['is_hidden']:
+                pkmnAbilityList = pkmnAbilityList + '\t' + (item['ability']['name']).title()
+                print(pkmnAbilityList)
+
+        for item in pkmnAbilitiesVariable:
+            if item['is_hidden']:
+                pkmnHiddenAbilityList = (item['ability']['name']).title()
+                print(pkmnHiddenAbilityList)
 
 
     with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info.txt', 'a') as compiledCsv:
@@ -59,4 +102,7 @@ for fileName in list:
         compiledCsv.write(str(pokemonDexNoFixed) + '\t' + pokemonName.title() + '\t' + str(imageBrightness.pokemonImageBrightnessFinder(folderPath, fileName)) + '\t' + pkmnTypeList + '\t' + pkmnAbilityList + '\t' + pkmnHiddenAbilityList + '\n')
     with open('/home/mark/Adams_Dev_Test/Pokemon_Compiled_Info_Log.txt', 'a') as infoLog:
     # with open('/home/adam/Pokemon_Images/Pokemon_Compiled_Info_Log_Temp.txt', 'a') as infoLog:
-        infoLog.write(fileName + '\n') 
+        infoLog.write(fileName + '\n')
+    
+    # except:
+    #     print('test' + pokemonNameFixed)
