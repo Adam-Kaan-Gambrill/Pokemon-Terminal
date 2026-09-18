@@ -1,17 +1,35 @@
 from pylette import extract_colors
+from PIL import Image
 
 # Extract palette with rich metadata
-palette = extract_colors(image='/home/adam/Pokemon_Images/Adams_Tests/HQ_Spare_Images/0655_Delphox-Mega.png', palette_size=8)
+palette = extract_colors(image = '/home/mark/Adams_Dev_Test/Pokemon-Terminal/pokemonterminal/Images/HQ_Images/0655_Delphox-Mega.png',\
+          palette_size=5, alpha_mask_threshold=128)
+
+# palette = extract_colors(image='/home/adam/Pokemon_Images/Adams_Tests/HQ_Spare_Images/0655_Delphox-Mega.png', palette_size=8)
+
+width = 1
+height = 1
+count = 0
 
 # Access color properties with hex support
 for color in palette.colors:
     # print(f"RGB: {color.rgb}")
-    print(f"Hex: {color.hex}")
+    imageColour = (f"Hex: {color.hex}"[6:])
+    red, green, blue = [(imageColour[:2], 16), (imageColour[2:4], 16), (imageColour[4:], 16)]
     # print(f"HSV: {color.hsv}")
-    # print(f"Frequency: {color.frequency:.2%}")
+    print(f"Frequency: {color.frequency:.2%}")
+    testR = int(imageColour[:2], 16)
+    testG = int(imageColour[2:4], 16)
+    testB = int(imageColour[4:], 16)
+    print (testR, testG, testB)
+    count = count + 1
+    img = Image.new(mode = "RGB", size = (width, height), color = (testR, testG, testB))
+    img.save('/home/mark/Adams_Dev_Test/Pokemon-Terminal/pokemonterminal/Images/Colour_Palette_Test/test' + str(count) + '.png', 'PNG')
+    # img.show()
 
 # Export to structured JSON
-palette.to_json(filename='/home/adam/Pokemon_Images/Adams_Tests/HQ_Images_JSON/0655_Delphox-Mega.json', colorspace='hsv')
+palette.to_json(filename='/home/mark/Adams_Dev_Test/Pokemon-Terminal/pokemonterminal/Images/Colour_Palette_Test/0655_Delphox-Mega.json', colorspace='hsv')
+# palette.to_json(filename='/home/adam/Pokemon_Images/Adams_Tests/HQ_Images_JSON/0655_Delphox-Mega.json', colorspace='hsv')
 
 # Access metadata
 print(f"Source: {palette.image_source}")
@@ -21,3 +39,4 @@ print(f"Extraction time: {palette.processing_stats['extraction_time']:.2f}s")
 palette.export('my_colors', colorspace='hls', include_metadata=True)
 
 # pip install pylette
+# https://qtiptip.github.io/Pylette/
