@@ -1,0 +1,23 @@
+from pylette import extract_colors
+
+# Extract palette with rich metadata
+palette = extract_colors(image='/home/adam/Pokemon_Images/Adams_Tests/HQ_Spare_Images/0655_Delphox-Mega.png', palette_size=8)
+
+# Access color properties with hex support
+for color in palette.colors:
+    # print(f"RGB: {color.rgb}")
+    print(f"Hex: {color.hex}")
+    # print(f"HSV: {color.hsv}")
+    # print(f"Frequency: {color.frequency:.2%}")
+
+# Export to structured JSON
+palette.to_json(filename='/home/adam/Pokemon_Images/Adams_Tests/HQ_Images_JSON/0655_Delphox-Mega.json', colorspace='hsv')
+
+# Access metadata
+print(f"Source: {palette.image_source}")
+print(f"Extraction time: {palette.processing_stats['extraction_time']:.2f}s")
+
+# Simple export method
+palette.export('my_colors', colorspace='hls', include_metadata=True)
+
+# pip install pylette
